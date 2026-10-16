@@ -11,6 +11,22 @@
 # include <map>
 # include <random>
 
+bool handling_errors(){
+  //Wrong number of arguments.
+  //a k or an output length that is not a positive integer, or an output length smaller than k,
+  //an option -a that is not followed by an non-negative number, or an unknown option,
+  //a training file that cannot be opened, and
+  //a training text that i too short to contain any k-gram followed by a character.
+}
+
+
+
+daw
+dwa
+
+
+
+
 using namespace std;
 
 int main(int argc, char *argv[]){
