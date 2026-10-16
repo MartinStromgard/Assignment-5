@@ -46,7 +46,9 @@ bool No_errors(int argcount,char *arglist[]){
     //return 1
   } 
   string First_argument = arglist[1];
-  if (First_argument == "-a" && )
+  if (First_argument == "-a"){
+    try 
+  }
   string First_argument = arglist[1];
   string Second_argument = arglist[2];
 
@@ -57,7 +59,19 @@ bool No_errors(int argcount,char *arglist[]){
 
 using namespace std;
 
+void Setting_k_alpha_file(int& K,double& ALPHA,int ARGC, char *ARGV[]){
+    try {
+        string First_argument = ARGV[1];
+    } catch {
+        
+    }
+}
+
 int main(int argc, char *argv[]){
+  int k;
+  double alpha = 0;
+  ifstream file;
+  Setting_k_alpha_file(k, alpha, argc, argv);
   //If -a is given, the number af alpha will be the first argument.
   //argv[0] is k (the length of the "gram")
   //argv[1] is the name of the text file that is used to train the model.
