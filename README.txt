@@ -10,7 +10,7 @@ Basically, the command line input should be on either of these two forms:
 
 where alpha is a double larger than 0 (if -a is written, otherwise it is set to zero), k is a integer larger than or equal to 1, file.txt is a name of a textfile (you have to write the name of the file correctly, and whether it is written correctly or not depends on where this textfile is located) and length_of_text is an integer larger than k.
 
-In order to run the program, you simply download the zip-file, open it with the command prompt, type "make" and afterwards you type the command on one of the two forms stated above.
+In order to run the program, you simply download the zip-file, put the files in a folder outside of the zipfile, run the command ""g++ "Main code assignment 5.cpp" -o slm"", and after that you simply write one of the lines shown above.
 
 
 
