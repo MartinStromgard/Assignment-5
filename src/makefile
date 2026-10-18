@@ -1,4 +1,4 @@
-"slm": "Main code assignment.cpp" "main.cpp"
+"slm": "Main code assignment 5.cpp" "main.cpp"
 	g++ $^ -o $@
 
 clean:
