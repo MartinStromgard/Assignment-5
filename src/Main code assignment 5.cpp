@@ -22,19 +22,20 @@
 # include <cstdlib> //for the strtod function.
 # include <stdexcept>
 # include <vector>
-# include "main classes.h"
+# include "Main code assignment.h"
 
 using namespace std;
 
 class k_gram {
   public:
   string text;
-  map<string,int> Probability_distribution;
   k_gram(string TEXT): text(TEXT){};
-
-}
-class k_plus_1_gram : public k_gram {
-}
+};
+class k_plus_1_gram {
+  public:
+  string text;
+  k_plus_1_gram(string TEXT): text(TEXT){};
+};
 
 bool wrong_number_of_arguments(int argcount,char *arglist[]){
   // If -a is not written in the beginning, then argcount should be 4. Otherwise, it should be 6.
@@ -50,7 +51,7 @@ bool wrong_number_of_arguments(int argcount,char *arglist[]){
   if (First_argument == "-a" && argcount == 6){
     return false;
   }
-  if (argc != 4){
+  if (argcount != 4){
     return true;
   }
   return false;
@@ -58,10 +59,11 @@ bool wrong_number_of_arguments(int argcount,char *arglist[]){
 
 double set_alpha(bool& error, char* LIST[]){
   string First_argument = LIST[1];
+  double alpha;
   if (First_argument == "-a"){
     char* endPtr;
     alpha = strtod(LIST[2],&endPtr);
-    if (ALPHA <= 0){
+    if (alpha <= 0){
       cerr << "Alpha must be a double larger than zero if -a is written." << endl;
       error = true;
     }
@@ -73,13 +75,15 @@ double set_alpha(bool& error, char* LIST[]){
 
 unsigned set_K(bool& ERROR, char* arglist[]){
   string First_argument = arglist[1];
+  int alpha_is_given;
   if (First_argument == "-a"){
-    int alpha_is_given = 2;
+    alpha_is_given = 2;
   } else {
-    int alpha_is_given = 0;
+    alpha_is_given = 0;
   }
+  double K_d;
   try {
-    double K_d = stod(arglist[alpha_is_given+1]);
+    K_d = stod(arglist[alpha_is_given+1]);
     int K = stoi(arglist[alpha_is_given+1]);
     if (K_d <= 0 || K_d != K){
       cerr << "K must be an integer larger than 0." << endl;
@@ -92,21 +96,6 @@ unsigned set_K(bool& ERROR, char* arglist[]){
   return K_d;
 }
 
-void Open_file(bool& ERROR, ifstream& FILE, char* LIST[]){
-  string First_argument = arglist[1];
-  if (First_argument == "-a"){
-    int alpha_is_given = 2;
-  } else {
-    int alpha_is_given = 0;
-  }
-  string file_string = LIST[alpha_is_given+2];
-  try {
-    FILE.open(file_string);
-  } catch (const ios_base::failure& e){
-    cerr << "Could not open file." << endl;
-    ERROR = true;
-  }
-}
 string Text_from_file(bool& error, ifstream& FILE, unsigned K){
   string string_to_import;
   string imported_word;
@@ -114,6 +103,7 @@ string Text_from_file(bool& error, ifstream& FILE, unsigned K){
     string_to_import.append(imported_word);
     string_to_import.append("_");
   }
+  string_to_import.erase(string_to_import.end()-1);
   if (size(string_to_import)<K){
     cerr << "The textfile must be larger than the given k." << endl;
     error = true;
@@ -123,15 +113,18 @@ string Text_from_file(bool& error, ifstream& FILE, unsigned K){
 
 int set_text_length(bool& ERROR, unsigned K,char* ARGV[]){
   int text_length = 0;
-  string First_argument = arglist[1];
+  int text_length2 = 0;
+  int alpha_is_given;
+  string First_argument = ARGV[1];
   if (First_argument == "-a"){
-    int alpha_is_given = 2;
+    alpha_is_given = 2;
   } else {
-    int alpha_is_given = 0;
+    alpha_is_given = 0;
   }
   try {
-    text_length = stoi(arglist[alpha_is_given+3]);
-    if (text_length < K){
+    text_length = stoi(ARGV[alpha_is_given+3]);
+    text_length2 = stod(ARGV[alpha_is_given+3]);
+    if (text_length < K||text_length!=text_length2){
       cerr << "Text length must be an integer larger than the chosen K." << endl;
       ERROR = true;
     }
@@ -143,23 +136,29 @@ int set_text_length(bool& ERROR, unsigned K,char* ARGV[]){
 }
 
 void add_letter_to_alphabet_vector(string letter,vector<string>& VECTOR){
-  auto it = find(VECTOR.begin(),VECTOR.end(),letter);
-  if (it!=VECTOR.end()){
-    VECTOR.push_back(letter);
-  }
+  bool Found_character = false;
+    for (int i=0;i!=size(VECTOR);++i){
+        if (VECTOR[i]==letter){
+            Found_character = true;
+            break;
+        }
+    }
+    if (Found_character==false){
+        VECTOR.push_back(letter);
+    }
 }
 
 map<string,unsigned> import_k_grams_into_map(unsigned K, string TOTAL_TEXT){
   string text_to_insert_into_k_gram = "";
   map<string,unsigned> Map_of_k_grams;
-  for (int j = 0; j! = K; ++j){
+  for (int j = 0; j != K; ++j){
     text_to_insert_into_k_gram += TOTAL_TEXT[j];
   }
   k_gram K_G(text_to_insert_into_k_gram);
   
-  for (int i = k; i != size(Total_text);++i){
+  for (int i = K; i != size(TOTAL_TEXT);++i){
     Map_of_k_grams[K_G.text] += 1;
-    text_to_insert_into_k_gram += Total_text[i];
+    text_to_insert_into_k_gram += TOTAL_TEXT[i];
     text_to_insert_into_k_gram.erase(0,1);
     k_gram K_G(text_to_insert_into_k_gram);
   }
@@ -167,17 +166,17 @@ map<string,unsigned> import_k_grams_into_map(unsigned K, string TOTAL_TEXT){
   
 }
 
-map<string,unsigned> import_k_plus_1_grams_into_map(unsigned K, string TOTAL_TEXT)
+map<string,unsigned> import_k_plus_1_grams_into_map(unsigned K, string TOTAL_TEXT){
   string text_to_insert_into_k_plus_1_gram = "";
   map<string,unsigned> Map_of_k_plus_1_grams;
-  for (int j = 0; j! = K+1; ++j){
+  for (int j = 0; j != K+1; ++j){
     text_to_insert_into_k_plus_1_gram += TOTAL_TEXT[j];
   }
   k_plus_1_gram K_P_1_G(text_to_insert_into_k_plus_1_gram);
   
-  for (int i = k+1; i != size(Total_text);++i){
+  for (int i = K+1; i != size(TOTAL_TEXT);++i){
     Map_of_k_plus_1_grams[K_P_1_G.text] += 1;
-    text_to_insert_into_k_plus_1_gram += Total_text[i];
+    text_to_insert_into_k_plus_1_gram += TOTAL_TEXT[i];
     text_to_insert_into_k_plus_1_gram.erase(0,1);
     k_plus_1_gram K_P_1_G(text_to_insert_into_k_plus_1_gram);
   }
@@ -188,10 +187,8 @@ map<string,unsigned> import_k_plus_1_grams_into_map(unsigned K, string TOTAL_TEX
 vector<string> Set_of_letters_used_in_file(string TOTAL_TEXT){
   vector<string> Alphabet_used_in_textfile;
   for (int i=0; i!=size(TOTAL_TEXT);++i){
-    auto it = find(Alphabet_used_in_textfile.begin(),Alphabet_used_in_textfile.end(),TOTAL_TEXT[i]);
-    if (it == Alphabet_used_in_textfile.end()){
-      Alphabet_used_in_textfile.push_back(TOTAL_TEXT[i]);
-    }
+    string character(1,TOTAL_TEXT[i]);
+    add_letter_to_alphabet_vector(character,Alphabet_used_in_textfile);
   }
   return Alphabet_used_in_textfile;
 }
@@ -203,7 +200,7 @@ string Use_probability_distribution_to_generate_letter(vector<string> Alphabet,d
     string K_plus_1_string = K_GRAM + i;
     unsigned number_of_K_plus_1_grams = Map_of_K_plus_1_GRAMS[K_plus_1_string];
     unsigned number_of_K_grams = Map_of_K_GRAMS[K_GRAM];
-    Probabilities.push_back((number_of_K_plus_1_grams + ALPHA)/(number_of_K_grams + APLHA*size(Alphabet)));
+    Probabilities.push_back((number_of_K_plus_1_grams + ALPHA)/(number_of_K_grams + ALPHA*size(Alphabet)));
   }
   random_device rd;
   mt19937 gen(rd());
@@ -214,9 +211,9 @@ string Use_probability_distribution_to_generate_letter(vector<string> Alphabet,d
 
 string generate_first_k_gram_in_text(map<string,unsigned> Map_of_k_grams){
   random_device rd;
-  mt19937 gen(rd());
-  uniform_distribution<size_t> random_K = dist(0,Map_of_k_grams.size()-1);
-  size_t random_K = dist(gen);
+  mt19937 generator(rd());
+  uniform_int_distribution<int> distribution(0,size(Map_of_k_grams)-1);
+  int random_K = distribution(generator);
   auto it = Map_of_k_grams.begin();
   advance(it,random_K);
   return it->first;
@@ -245,7 +242,17 @@ int main(int argc, char *argv[]){
   
   unsigned k = set_K(error, argv);
   double alpha = set_alpha(error,argv);
-  ifstream file; Open_file(error, file, argv);          //If file can not be opened, throw exception.
+  int Index_to_extract_filename_from;
+  if (alpha!=0){
+      Index_to_extract_filename_from = 4;
+  } else {
+      Index_to_extract_filename_from = 2;
+  }
+  ifstream file(argv[Index_to_extract_filename_from]);            //If file can not be opened, throw exception.
+  if (!file.is_open()){
+    cerr << "Could not open file." << endl;
+    return 1;
+  }
   int text_length = set_text_length(error, k,argv);     //text length can not be lower than the chosen k.
   string Total_text = Text_from_file(error,file,k);          //If length of Total_text is lower than k, there will be an exception.
   if (error == true){
