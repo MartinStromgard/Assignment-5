@@ -26,16 +26,9 @@
 
 using namespace std;
 
-class k_gram {
-  public:
-  string text;
-  k_gram(string TEXT): text(TEXT){};
-};
-class k_plus_1_gram {
-  public:
-  string text;
-  k_plus_1_gram(string TEXT): text(TEXT){};
-};
+k_gram::k_gram(string TEXT): text(TEXT){};
+
+k_plus_1_gram::k_plus_1_gram(string TEXT): text(TEXT){};
 
 bool wrong_number_of_arguments(int argcount,char *arglist[]){
   // If -a is not written in the beginning, then argcount should be 4. Otherwise, it should be 6.
