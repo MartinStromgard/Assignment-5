@@ -1,6 +1,6 @@
 "slm": "Main code assignment.cpp" "main.cpp"
-  g++ $^ -o $@
+	g++ $^ -o $@
 
 clean:
-  rm $@
+	rm $@
 
