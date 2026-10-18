@@ -154,16 +154,13 @@ map<string,unsigned> import_k_grams_into_map(unsigned K, string TOTAL_TEXT){
   for (int j = 0; j != K; ++j){
     text_to_insert_into_k_gram += TOTAL_TEXT[j];
   }
-  k_gram K_G(text_to_insert_into_k_gram);
   
   for (int i = K; i != size(TOTAL_TEXT);++i){
-    Map_of_k_grams[K_G.text] += 1;
-    text_to_insert_into_k_gram += TOTAL_TEXT[i];
-    text_to_insert_into_k_gram.erase(0,1);
-    k_gram K_G(text_to_insert_into_k_gram);
+      Map_of_k_grams[text_to_insert_into_k_gram] += 1;
+      text_to_insert_into_k_gram += TOTAL_TEXT[i];
+      text_to_insert_into_k_gram.erase(0,1);
   }
   return Map_of_k_grams;
-  
 }
 
 map<string,unsigned> import_k_plus_1_grams_into_map(unsigned K, string TOTAL_TEXT){
@@ -172,13 +169,10 @@ map<string,unsigned> import_k_plus_1_grams_into_map(unsigned K, string TOTAL_TEX
   for (int j = 0; j != K+1; ++j){
     text_to_insert_into_k_plus_1_gram += TOTAL_TEXT[j];
   }
-  k_plus_1_gram K_P_1_G(text_to_insert_into_k_plus_1_gram);
-  
   for (int i = K+1; i != size(TOTAL_TEXT);++i){
-    Map_of_k_plus_1_grams[K_P_1_G.text] += 1;
+    Map_of_k_plus_1_grams[text_to_insert_into_k_plus_1_gram] += 1;
     text_to_insert_into_k_plus_1_gram += TOTAL_TEXT[i];
     text_to_insert_into_k_plus_1_gram.erase(0,1);
-    k_plus_1_gram K_P_1_G(text_to_insert_into_k_plus_1_gram);
   }
   return Map_of_k_plus_1_grams;
   
