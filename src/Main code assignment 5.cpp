@@ -6,21 +6,14 @@
 # include <cstdlib> //for the strtod function.
 # include <stdexcept>
 # include <vector>
+# include "Main code assignment.h"
 
 using namespace std;
 
-class k_gram {
-  public:
-  string text;
-  k_gram(string TEXT): text(TEXT){};
+k_gram::k_gram(string TEXT): text(TEXT){};
 
-};
-class k_plus_1_gram {
-    public:
-    string text;
-    k_plus_1_gram(string TEXT): text(TEXT){};
+k_plus_1_gram::k_plus_1_gram(string TEXT): text(TEXT){};
 
-};
 
 bool wrong_number_of_arguments(int argcount,char *arglist[]){
   // If -a is not written in the beginning, then argcount should be 4. Otherwise, it should be 6.
@@ -98,7 +91,7 @@ string Text_from_file(bool& error, ifstream& FILE, unsigned K){
 
 int set_text_length(bool& ERROR, unsigned K,char* ARGV[]){
   int text_length = 0;
-  int text_length2 = 0;
+  double text_length2 = 0;
   int alpha_is_given;
   string First_argument = ARGV[1];
   if (First_argument == "-a"){
@@ -198,19 +191,17 @@ string generate_first_k_gram_in_text(map<string,unsigned> Map_of_k_grams){
   return it->first;
 }
 
-string generate_text(vector<string> Alphabet,map<string,unsigned> Map_of_k_grams,map<string,unsigned> Map_of_k_plus_1_grams, int text_length,double alpha);
+string generate_text(vector<string> Alphabet,map<string,unsigned> Map_of_k_grams,map<string,unsigned> Map_of_k_plus_1_grams, int text_length,double alpha){
   string k_gram = generate_first_k_gram_in_text(Map_of_k_grams);
   string text_to_output = k_gram;
   while (size(text_to_output)!=text_length){
-    string letter_to_add = Use_probability_distribution_to_generate_letter(Alphabet,alpha, k_gram, Map_of_k_grams, Map_of_K_plus_1_grams)
+    string letter_to_add = Use_probability_distribution_to_generate_letter(Alphabet,alpha, k_gram, Map_of_k_grams, Map_of_k_plus_1_grams);
     text_to_output += letter_to_add;
     k_gram += letter_to_add;
     k_gram.erase(0,1);
   }
   return text_to_output;
-  
-# include "Main code assignment.h"
-
+}
 int main(int argc, char *argv[]){
   
   bool error = false;      //If something goes wrong in a function, the functions will change error to true.
