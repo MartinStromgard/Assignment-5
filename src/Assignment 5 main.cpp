@@ -34,6 +34,7 @@ int main(int argc, char *argv[]){
   }
   int text_length = set_text_length(error, k,argv);     //text length can not be lower than the chosen k.
   string Total_text = Text_from_file(error,file,k);          //If length of Total_text is lower than k, there will be an exception.
+
   if (error == true){
     return 1;
   }
@@ -41,6 +42,6 @@ int main(int argc, char *argv[]){
   map<string,unsigned> Map_of_k_plus_1_grams = import_k_plus_1_grams_into_map(k, Total_text);
   vector<string> Alphabet_in_text_file = Set_of_letters_used_in_file(Total_text);
 
-  string final_string_result = generate_text(Map_of_k_grams,Map_of_k_plus_1_grams,set_text_length);
+  string final_string_result = generate_text(Alphabet_in_text_file,Map_of_k_grams,Map_of_k_plus_1_grams,text_length,alpha);
   cout << final_string_result << endl;
 }
