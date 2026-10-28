@@ -102,7 +102,7 @@ int set_text_length(bool& ERROR, unsigned K,char* ARGV[]){
   try {
     text_length = stoi(ARGV[alpha_is_given+3]);
     text_length2 = stod(ARGV[alpha_is_given+3]);
-    if (text_length < K||text_length!=text_length2){
+    if (text_length < K||text_length!=text_length2||text_length<=0){
       cerr << "Text length must be an integer larger than the chosen K." << endl;
       ERROR = true;
     }
